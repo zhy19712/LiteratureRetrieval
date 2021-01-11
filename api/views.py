@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.utils import json
 
 from api.serializers import GetSerializer, PostSerializer
-from api.models import Test
+from api.models import Test, Proxy
 
 
 class GetTest(generics.ListCreateAPIView):
