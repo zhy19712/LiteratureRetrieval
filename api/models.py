@@ -14,3 +14,22 @@ class Proxy(models.Model):
     typ = models.CharField(max_length=50)
     protocal = models.CharField(max_length=50)
     position = models.CharField(max_length=50)
+
+
+class Article(models.Model):
+    url = models.URLField(max_length=255)
+    title = models.CharField(max_length=255)
+    time = models.CharField(max_length=255, null=True)
+    text = models.TextField(null=True)
+
+
+class KeywordTitle(models.Model):
+    keyword = models.CharField(max_length=255, null=True)
+
+
+class KeywordText(models.Model):
+    keyword = models.CharField(max_length=255, null=True)
+
+
+class ScrapedUrls(models.Model):
+    url = models.CharField(max_length=255, null=True)

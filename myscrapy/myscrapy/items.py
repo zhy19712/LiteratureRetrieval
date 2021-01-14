@@ -18,3 +18,8 @@ class MyscrapyItem(DjangoItem):
     # protocal = scrapy.Field()
     # position = scrapy.Field()
     django_model = models.Proxy
+
+
+class TutorialItem(DjangoItem):
+    django_model = models.Article
+
