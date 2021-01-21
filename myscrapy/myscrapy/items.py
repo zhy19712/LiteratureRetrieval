@@ -23,3 +23,7 @@ class MyscrapyItem(DjangoItem):
 class TutorialItem(DjangoItem):
     django_model = models.Article
 
+
+class CtgItem(DjangoItem):
+    django_model = models.Article
+

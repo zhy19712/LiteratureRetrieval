@@ -1,58 +1,84 @@
-from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.utils import json
+from rest_framework.views import APIView
 
-from api.serializers import GetSerializer, PostSerializer
-from api.models import Test, Proxy
+from api.serializers import ArticleSerializer
+from api.models import Article
 
 
-class GetTest(generics.ListCreateAPIView):
+class ArticleView(APIView):
+    def post(self, request):
+        print(request.data)
+
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid():
+            article = serializer.save()
+            response = {
+                'code': 1,
+                'data': serializer.data,
+            }
+            return Response(response)
+        else:
+            return Response(serializer.errors)
+
+    def put(self, request):
+        uid = request.data['id']
+        try:
+            article = Article.objects.get(id=uid)
+        except:
+            response = {
+                'code': 0,
+                'data': [],
+            }
+            return Response(response)
+        else:
+            serializer = ArticleSerializer(data=request.data, instance=article)
+            if serializer.is_valid():
+                serializer.save()
+                response = {
+                    'code': 1,
+                    'data': serializer.data,
+                }
+                return Response(response)
+            else:
+                return Response(serializer.errors)
+
     def get(self, request):
-        queryset = Test.objects.all()
+        article = Article.objects.all()
+        serializer = ArticleSerializer(article, many=True)
         response = {
             'code': 1,
-            'data': [],
-            'msg': 'success',
-            'total': ''
+            'data': serializer.data,
         }
-        serializer = GetSerializer(queryset, many=True)
-        response['data'] = serializer.data
-        response['total'] = len(serializer.data)
         return Response(response)
 
 
-class PostTest(generics.ListCreateAPIView):
-    def create(self, request):
-        body = request.body
-        parameter = json.loads(body)
-
-        name = parameter['name']
-        value = parameter['value']
-        serializer = PostSerializer(data=parameter)
-        if serializer.is_valid():
-            # 调用save(), 从而调用序列化对象的create()方法,创建一条数据
-            serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class EditTest(generics.RetrieveUpdateDestroyAPIView):
+class ArticleFilterView(APIView):
     def post(self, request):
-        body = request.body
-        parameter = json.loads(body)
-        instance = Test.objects.filter(id=1).first()
+        uid = request.data['id']
+        article = Article.objects.get(id=uid)
+        serializer = ArticleSerializer(article)
+        if serializer:
+            response = {
+                'code': 1,
+                'data': serializer.data,
+            }
+            return Response(response)
+        else:
+            return Response(serializer.errors)
 
-        id = parameter['id']
-        name = parameter['name']
-        value = parameter['value']
-        serializer = PostSerializer(data=parameter)
-        if serializer.is_valid():
-            serializer.update(instance, parameter)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-
+    def delete(self, request):
+        uid = request.data['id']
+        try:
+            Article.objects.get(id=uid).delete()
+        except:
+            response = {
+                'code': 0,
+                'data': [],
+            }
+            return Response(response)
+        else:
+            response = {
+                'code': 1,
+                'data': [],
+            }
+            return Response(response)
