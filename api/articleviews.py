@@ -20,28 +20,6 @@ class ArticleView(APIView):
         else:
             return Response(serializer.errors)
 
-    def put(self, request):
-        uid = request.data['id']
-        try:
-            article = Article.objects.get(id=uid)
-        except:
-            response = {
-                'code': 0,
-                'data': [],
-            }
-            return Response(response)
-        else:
-            serializer = ArticleSerializer(data=request.data, instance=article)
-            if serializer.is_valid():
-                serializer.save()
-                response = {
-                    'code': 1,
-                    'data': serializer.data,
-                }
-                return Response(response)
-            else:
-                return Response(serializer.errors)
-
     def get(self, request):
         article = Article.objects.all()
         serializer = ArticleSerializer(article, many=True)
@@ -66,6 +44,28 @@ class ArticleFilterView(APIView):
         else:
             return Response(serializer.errors)
 
+    def put(self, request):
+        uid = request.data['id']
+        try:
+            article = Article.objects.get(id=uid)
+        except:
+            response = {
+                'code': 0,
+                'data': [],
+            }
+            return Response(response)
+        else:
+            serializer = ArticleSerializer(data=request.data, instance=article)
+            if serializer.is_valid():
+                serializer.save()
+                response = {
+                    'code': 1,
+                    'data': serializer.data,
+                }
+                return Response(response)
+            else:
+                return Response(serializer.errors)
+
     def delete(self, request):
         uid = request.data['id']
         try:
@@ -82,3 +82,4 @@ class ArticleFilterView(APIView):
                 'data': [],
             }
             return Response(response)
+

@@ -3,17 +3,11 @@ from django.db import models
 # Create your models here.
 
 
-class Test(models.Model):
-    name = models.CharField("键", max_length=200, db_index=True)
-    value = models.SlugField("值", max_length=200, db_index=True)
-
-
-class Proxy(models.Model):
-    ip = models.CharField(max_length=50)
-    port = models.CharField(max_length=50)
-    typ = models.CharField(max_length=50)
-    protocal = models.CharField(max_length=50)
-    position = models.CharField(max_length=50)
+class Target(models.Model):
+    url = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    type = models.IntegerField(max_length=1)
+    remark = models.CharField(max_length=255, null=True)
 
 
 class Article(models.Model):
@@ -23,12 +17,9 @@ class Article(models.Model):
     text = models.TextField(null=True)
 
 
-class KeywordTitle(models.Model):
+class Keyword(models.Model):
     keyword = models.CharField(max_length=255, null=True)
-
-
-class KeywordText(models.Model):
-    keyword = models.CharField(max_length=255, null=True)
+    type = models.IntegerField(max_length=1)
 
 
 class ScrapedUrls(models.Model):
