@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Keyword, ScrapedUrls, Article
+from .models import Keyword, ScrapedUrls, Article, Target
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -8,11 +8,13 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = '__all__'  # 要序列化的字段
 
         def create(self, validated_data):
+            domain = validated_data['domain']
             url = validated_data['url']
             title = validated_data['title']
             time = validated_data['time']
             text = validated_data['text']
             article = Article.objects.create(
+                domain=domain,
                 url=url,
                 title=title,
                 time=time,
@@ -21,11 +23,12 @@ class ArticleSerializer(serializers.ModelSerializer):
             return article
 
         def update(self, instance, validated_data):
+            domain = validated_data['domain']
             url = validated_data['url']
             title = validated_data['title']
             time = validated_data['time']
             text = validated_data['text']
-
+            instance.domain = domain
             instance.title = title
             instance.url = url
             instance.time = time
@@ -53,6 +56,38 @@ class KeywordSerializer(serializers.ModelSerializer):
             type = validated_data['title']
             instance.keyword = keyword
             instance.type = type
+            instance.save()
+            return instance
+
+
+class TargetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Target  # 要序列化的模型
+        fields = '__all__'  # 要序列化的字段
+
+        def create(self, validated_data):
+            url = validated_data['url']
+            name = validated_data['name']
+            type = validated_data['type']
+            remark = validated_data['remark']
+            target = Target.objects.create(
+                url=url,
+                name=name,
+                type=type,
+                remark=remark
+            )
+            return target
+
+        def update(self, instance, validated_data):
+            url = validated_data['url']
+            name = validated_data['name']
+            type = validated_data['type']
+            remark = validated_data['remark']
+
+            instance.name = name
+            instance.url = url
+            instance.type = type
+            instance.remark = remark
             instance.save()
             return instance
 

@@ -11,6 +11,7 @@ class Target(models.Model):
 
 
 class Article(models.Model):
+    domain = models.URLField(max_length=255)
     url = models.URLField(max_length=255)
     title = models.CharField(max_length=255)
     time = models.CharField(max_length=255, null=True)
