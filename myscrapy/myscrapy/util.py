@@ -1,3 +1,9 @@
+import re
+import random
+import json
+
+import requests
+
 from api.models import Keyword, ScrapedUrls
 from myscrapy.items import TutorialItem
 from scrapy import Request

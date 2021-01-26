@@ -1,6 +1,7 @@
 from django.urls import path, re_path
 
-import targetviews
+from . import adminviews
+from . import targetviews
 from . import articleviews
 from . import keywordviews
 
@@ -13,5 +14,7 @@ urlpatterns = [
     path('keywordfilter', keywordviews.KeywordFilterView.as_view(), name='编辑put/条件查询post/删除delete 关键字'),
     path('target', targetviews.TargetView.as_view(), name='编辑put/条件查询post/删除delete url'),
     path('targetfilter', targetviews.TargetFilterView.as_view(), name='编辑put/条件查询post/删除delete url'),
+    path('admin/login', adminviews.LoginView.as_view(), name='login'),
+    path('admin/info', adminviews.AdminInfoView.as_view(), name='info'),
 
 ]

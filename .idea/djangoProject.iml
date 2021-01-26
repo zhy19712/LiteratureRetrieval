@@ -17,6 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/api" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/djangoProject" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/myscrapy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sougouweixin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/wechat" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
